@@ -1,4 +1,4 @@
-package guru.qa.owner.config;
+package guru.qa.owner.data;
 
 public enum Browser {
     FIREFOX, CHROME
