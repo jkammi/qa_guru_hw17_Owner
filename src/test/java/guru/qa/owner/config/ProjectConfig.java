@@ -6,23 +6,24 @@ import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class ProjectConfig {
-    static WebDriverConfig config = ConfigFactory.create(WebDriverConfig.class, System.getProperties());
-
     public static void configure() {
+        String env = System.getProperty("env");
+        if (Strings.isNullOrEmpty(env)) {
+            env = "local"; // Default to local if env property is not set
+        }
+
+        WebDriverConfig config = ConfigFactory.create(WebDriverConfig.class, System.getProperties());
 
         Configuration.baseUrl = config.getBaseUrl();
-        Configuration.browser = String.valueOf(config.getBrowserName());
+        Configuration.browser = config.getBrowserName().toString();
         Configuration.browserVersion = config.getBrowserVersion();
 
-
-        String remoteUrl = config.getRemoteWebDriverUrl();
-        if (!Strings.isNullOrEmpty(remoteUrl)) {
-            Configuration.remote = remoteUrl;
+        if (env.equals("remote")) {
+            Configuration.remote = config.getRemoteWebDriverUrl();
             DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setCapability("enableVNC", true);
             capabilities.setCapability("enableVideo", true);
             Configuration.browserCapabilities = capabilities;
         }
     }
-
 }

@@ -7,7 +7,6 @@ import org.aeonbits.owner.Config;
         "classpath:${env}.properties",
         "system:properties"
 })
-
 public interface WebDriverConfig extends Config {
 
     @Key("browserName")
@@ -25,5 +24,4 @@ public interface WebDriverConfig extends Config {
     @Key("remoteWebDriverUrl")
     @DefaultValue("https://user1:1234@selenoid.autotests.cloud/wd/hub")
     String getRemoteWebDriverUrl();
-
 }
