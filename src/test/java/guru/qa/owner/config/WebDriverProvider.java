@@ -13,7 +13,8 @@ public class WebDriverProvider implements Supplier<WebDriver> {
     private final WebDriverConfig config;
 
     public WebDriverProvider() {
-        this.config = ConfigFactory.create(WebDriverConfig.class, System.getProperties());
+        this.config = ConfigFactory
+                .create(WebDriverConfig.class, System.getProperties());
     }
 
     @Override
@@ -39,6 +40,4 @@ public class WebDriverProvider implements Supplier<WebDriver> {
         }
     }
 
-
 }
-

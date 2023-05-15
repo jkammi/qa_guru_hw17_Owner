@@ -18,14 +18,14 @@ public class HomeWorkTest {
     }
 
     @Test
-    public void testGitHub() {
+    public void testGithub() {
         String title = driver.getTitle();
-        assertEquals("GitHub: Let’s build from here · GitHub", title);
-        driver.quit();
+        assertEquals("GitHub: Where the world builds software · GitHub", title);
     }
 
     @AfterEach
     public void stopDriver() {
         driver.quit();
     }
+
 }

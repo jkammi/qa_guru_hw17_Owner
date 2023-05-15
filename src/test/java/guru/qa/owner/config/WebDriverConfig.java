@@ -5,7 +5,6 @@ import org.aeonbits.owner.Config;
 
 @Config.Sources({
         "classpath:${env}.properties",
-        "system:properties"
 })
 public interface WebDriverConfig extends Config {
 
@@ -20,6 +19,10 @@ public interface WebDriverConfig extends Config {
     @Key("baseUrl")
     @DefaultValue("https://github.com")
     String getBaseUrl();
+
+    @DefaultValue("false")
+    @Key("isRemote")
+    Boolean isRemote();
 
     @Key("remoteWebDriverUrl")
     @DefaultValue("https://user1:1234@selenoid.autotests.cloud/wd/hub")

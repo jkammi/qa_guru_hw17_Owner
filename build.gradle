@@ -1,28 +1,43 @@
 plugins {
     id 'java'
+    id 'io.qameta.allure' version '2.11.2'
 }
 
-group 'guru.qa'
+group 'guru.qa.owner'
 version '1.0-SNAPSHOT'
+
+allure {
+    report {
+        version.set("2.21.0")
+    }
+    adapter { // отвечает за появление папочки build/allure-results
+        aspectjWeaver.set(true) //обработка аннотации @Step
+        frameworks {
+            junit5 { //название фреймворка
+                adapterVersion.set("2.21.0") //версия интеграции фреймворка и Allure
+            }
+        }
+    }
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation(
-            'org.junit.jupiter:junit-jupiter-engine:5.9.3',
-            'org.seleniumhq.selenium:selenium-java:4.9.0',
-            'io.github.bonigarcia:webdrivermanager:5.3.2',
-            'org.aeonbits.owner:owner:1.0.12',
-            'org.assertj:assertj-core:3.24.2',
-            'com.codeborne:selenide:6.14.0'
-    )
-    testRuntimeOnly('org.junit.jupiter:junit-jupiter-engine:5.9.3')
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+    testImplementation 'com.codeborne:selenide:6.12.3'
+    testImplementation 'io.qameta.allure:allure-selenide:2.21.0'
+    testImplementation 'org.slf4j:slf4j-simple:1.7.32'
+    testImplementation "org.aeonbits.owner:owner:1.0.12"
+
 }
 
 test {
     useJUnitPlatform()
-    // .\gradlew clean test -DbaseUrl=https://github.com -Dbrowser=CHROME
     systemProperties(System.getProperties())
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
 }

@@ -1,28 +1,30 @@
 package guru.qa.owner.config;
 
 import com.codeborne.selenide.Configuration;
-import com.google.common.base.Strings;
-import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.util.Map;
+
 public class ProjectConfig {
-    public static void configure() {
-        String env = System.getProperty("env");
-        if (Strings.isNullOrEmpty(env)) {
-            env = "local"; // Default to local if env property is not set
-        }
+    private final WebDriverConfig webDriverConfig;
 
-        WebDriverConfig config = ConfigFactory.create(WebDriverConfig.class, System.getProperties());
+    public ProjectConfig(WebDriverConfig webDriverConfig) {
+        this.webDriverConfig = webDriverConfig;
+    }
 
-        Configuration.baseUrl = config.getBaseUrl();
-        Configuration.browser = config.getBrowserName().toString();
-        Configuration.browserVersion = config.getBrowserVersion();
+    public void webDriverConfig() {
+        Configuration.baseUrl = webDriverConfig.getBaseUrl();
+        Configuration.browser = webDriverConfig.getBrowserName().toString();
+        Configuration.browserVersion = webDriverConfig.getBrowserVersion();
 
-        if (env.equals("remote")) {
-            Configuration.remote = config.getRemoteWebDriverUrl();
+        if (webDriverConfig.isRemote()) {
+            Configuration.remote = webDriverConfig.getRemoteWebDriverUrl();
+
             DesiredCapabilities capabilities = new DesiredCapabilities();
-            capabilities.setCapability("enableVNC", true);
-            capabilities.setCapability("enableVideo", true);
+            capabilities.setCapability("selenoid:options", Map.<String, Object>of(
+                    "enableVNC", true,
+                    "enableVideo", true
+            ));
             Configuration.browserCapabilities = capabilities;
         }
     }
