@@ -1,31 +1,23 @@
 package guru.qa.owner;
 
-import guru.qa.owner.config.WebDriverProvider;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import guru.qa.owner.config.WebDriverConfig;
+import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.WebDriver;
 
+import static com.codeborne.selenide.Selenide.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class HomeWorkTest {
+public class HomeWorkTest extends TestBase{
 
-    private WebDriver driver;
+    static WebDriverConfig config = ConfigFactory.create(WebDriverConfig.class, System.getProperties());
 
-    @BeforeEach
-    public void startDriver() {
-        driver = new WebDriverProvider().get();
-    }
 
     @Test
     public void testGithub() {
-        String title = driver.getTitle();
-        assertEquals("GitHub: Where the world builds software · GitHub", title);
-    }
-
-    @AfterEach
-    public void stopDriver() {
-        driver.quit();
+        open(config.getBaseUrl());
+        String title = title();
+        sleep(6000);
+        assertEquals("GitHub: Let’s build from here · GitHub", title);
     }
 
 }
