@@ -18,6 +18,7 @@ public interface WebDriverConfig extends Config {
     String getBrowserVersion();
 
     @Key("baseUrl")
+    @DefaultValue("https://github.com/")
     String getBaseUrl();
 
     @Key("remoteWebDriverUrl")
